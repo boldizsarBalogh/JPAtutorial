@@ -19,7 +19,7 @@ public class Season {
     int seasonNumber;
 
     @ManyToOne
-    @EqualsAndHashCode.Exclude
     private Series series;
+
 
 }

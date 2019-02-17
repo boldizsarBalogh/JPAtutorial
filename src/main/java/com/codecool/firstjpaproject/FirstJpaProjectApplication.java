@@ -2,8 +2,10 @@ package com.codecool.firstjpaproject;
 
 import com.codecool.firstjpaproject.entity.Genre;
 import com.codecool.firstjpaproject.entity.GenreName;
+import com.codecool.firstjpaproject.entity.Season;
 import com.codecool.firstjpaproject.entity.Series;
 import com.codecool.firstjpaproject.repository.GenreRepository;
+import com.codecool.firstjpaproject.repository.SeasonRepository;
 import com.codecool.firstjpaproject.repository.SeriesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -23,6 +25,9 @@ public class FirstJpaProjectApplication {
 
     @Autowired
     private GenreRepository genreRepository;
+
+    @Autowired
+    private SeasonRepository seasonRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(FirstJpaProjectApplication.class, args);
@@ -46,6 +51,12 @@ public class FirstJpaProjectApplication {
                     .genres(Arrays.asList(genre1,genre2))
                     .build();
             seriesRepository.save(gameOfThrones);
+
+            Season seasonOne = Season.builder()
+                    .seasonNumber(1)
+                    .series(gameOfThrones)
+                    .build();
+            seasonRepository.save(seasonOne);
 
         };
     }
