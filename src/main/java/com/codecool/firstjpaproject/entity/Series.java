@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,9 +27,21 @@ public class Series {
     List<Genre> genres = new ArrayList<>();
 
     @Transient
-    int age;
+    long age;
 
-    LocalDate releaseDate;
+    LocalDate startDate;
+
+    @OneToMany
+    @Singular
+    @ElementCollection
+    @EqualsAndHashCode.Exclude
+    List<Season> seasons;
+
+    public void calculateAge(){
+        if(startDate != null) {
+            age = ChronoUnit.YEARS.between(startDate,LocalDate.now());
+        }
+    }
 
 
 }

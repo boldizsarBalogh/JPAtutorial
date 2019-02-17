@@ -1,9 +1,7 @@
 package com.codecool.firstjpaproject;
 
-import com.codecool.firstjpaproject.entity.Genre;
-import com.codecool.firstjpaproject.entity.GenreName;
-import com.codecool.firstjpaproject.entity.Season;
-import com.codecool.firstjpaproject.entity.Series;
+import com.codecool.firstjpaproject.entity.*;
+import com.codecool.firstjpaproject.repository.EpisodeRepository;
 import com.codecool.firstjpaproject.repository.GenreRepository;
 import com.codecool.firstjpaproject.repository.SeasonRepository;
 import com.codecool.firstjpaproject.repository.SeriesRepository;
@@ -29,6 +27,9 @@ public class FirstJpaProjectApplication {
     @Autowired
     private SeasonRepository seasonRepository;
 
+    @Autowired
+    private EpisodeRepository episodeRepository;
+
     public static void main(String[] args) {
         SpringApplication.run(FirstJpaProjectApplication.class, args);
     }
@@ -40,23 +41,42 @@ public class FirstJpaProjectApplication {
             Genre genre1 = Genre.builder()
                     .name(GenreName.ACTION)
                     .build();
-            genreRepository.save(genre1);
             Genre genre2 = Genre.builder()
                     .name(GenreName.DRAMA)
                     .build();
+            genreRepository.save(genre1);
             genreRepository.save(genre2);
             Series gameOfThrones = Series.builder()
-                    .releaseDate(LocalDate.of(2011, 4, 1))
+                    .startDate(LocalDate.of(2011, 4, 1))
                     .title("Game Of Thrones")
                     .genres(Arrays.asList(genre1,genre2))
                     .build();
             seriesRepository.save(gameOfThrones);
+
+
 
             Season seasonOne = Season.builder()
                     .seasonNumber(1)
                     .series(gameOfThrones)
                     .build();
             seasonRepository.save(seasonOne);
+
+            Episode episodeOne = Episode.builder()
+                    .releaseDate(LocalDate.of(2011,4,1))
+                    .title("pilot")
+                    .build();
+
+            Episode episodeTwo = Episode.builder()
+                    .releaseDate(LocalDate.of(2011,4,8))
+                    .title("not pilot")
+                    .build();
+            episodeOne.setSeason(seasonOne);
+            episodeTwo.setSeason(seasonOne);
+            gameOfThrones.setSeasons(Arrays.asList(seasonOne));
+
+            seriesRepository.save(gameOfThrones);
+            episodeRepository.save(episodeOne);
+            episodeRepository.save(episodeTwo);
 
         };
     }

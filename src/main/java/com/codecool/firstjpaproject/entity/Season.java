@@ -4,6 +4,7 @@ package com.codecool.firstjpaproject.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -20,6 +21,13 @@ public class Season {
 
     @ManyToOne
     private Series series;
+
+    @Singular
+    @ElementCollection
+    @EqualsAndHashCode.Exclude
+    @OneToMany(mappedBy = "season", cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
+    private List<Episode> episodes;
+
 
 
 }

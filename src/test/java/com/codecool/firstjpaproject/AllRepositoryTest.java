@@ -32,7 +32,7 @@ public class AllRepositoryTest {
     @Test
     public void createOneSeries(){
         Series temp = Series.builder()
-                .releaseDate(LocalDate.of(1990,6,6))
+                .startDate(LocalDate.of(1990,6,6))
                 .title("temp")
                 .build();
         seriesRepository.save(temp);
